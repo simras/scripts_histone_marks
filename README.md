@@ -11,7 +11,7 @@ Will download datasets from SRA specified in a file SRRID.txt and unpack the SRA
 
     map_RNAseq_data.sh
 
-# Script to estimate the most frequent 3'end adapter sequence in a dataset
+### Script to estimate the most frequent 3'end adapter sequence in a dataset
 
     pick_adapter.sh
 

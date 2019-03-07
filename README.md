@@ -5,8 +5,10 @@ Will download datasets from SRA specified in a file SRRID.txt and unpack the SRA
 
 download_data.sh
 
-
+Script that calculates the rate of that scription from pNET-seq data
 calc_nascent_expression.sh
+
+Script that can estimate new gene boundries based on TSS-seq, TIF-seq and PAS-seq data in bedgraph format
 estimate_representative_transcript.py
 
 Pipeline for mapping and processing of pNET-seq data.

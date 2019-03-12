@@ -80,7 +80,7 @@ Before mapping, 3’adapters were removed by a custom script that removes the mo
 To calculate mean coverage across a metagene genomic coverage was overlapped with the protein coding gene from the above custom gene annotation with bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 100 equal sized parts and averages was calculated across values given by MACS in each bin and then across all genes by a custom script and this was plotted in R (7). 
 
 ## Estimation of gene borders
-To reestimate the boundaries of protein coding genes and make them more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved and three datasets of TSS-seq, TIF-seq and PAS-seq were merged and normalized into a single data track for each strand separately for transcription start sites (TSS) and termination sites (TTS) along the genome. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls over the genome length.
+To reestimate the boundaries of protein coding genes and make them more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved and three datasets of TSS-seq, TIF-seq and PAS-seq were merged and normalized into a single data track for each strand separately for transcription start sites (TSS) and termination sites (TTS) along the genome. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls R over the genome length l
 
 e=R/l
 

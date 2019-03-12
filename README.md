@@ -71,25 +71,25 @@ these 8 base barcodes are used to remove duplicated reads with
 All custom Python, Bash and R scripts used in the computational analyses below are shared here.
 
 ## Retrieval of data
-All histone marks ChIP-seq datasets in wild type col-0 Arabidopsis Thaliana seedlings 5 days to 3 weeks old (see supplementary table S1 for more informations) were identified through queries to the SRA (1) and DNA Data Bank of Japan (DDBJ) (2). Upon identification, SRA-files were retrieved from the SRA FTP-server and uncompressed from SRA format using fastq-dump.
+All histone mark ChIP-seq datasets are wild type Col-0 Arabidopsis Thaliana seedlings, 5 days to 3 weeks old (see supplementary table S1 for more information). These data sets were identified through queries to the SRA (1) and DNA Data Bank of Japan (DDBJ) (2). Upon identification, SRA-files were retrieved from the SRA FTP-server and uncompressed from SRA format using fastq-dump.
 
 ## Mapping and calculation of genomic coverage
 Before mapping, 3’adapters were removed by a custom script that removes the most frequent of 4 different commonly used adapter sequences from the 3’end of single-end reads or 3’end of both mates in paired-end reads with cutadapt (3). Reads from ChIP-seq libraries were aligned to the Arabidopsis Thaliana genome TAIR10 using the STAR Ver 2.60c aligner (4) (options: --outSAMmultNmax 1, --seedSearchStartLmax 30, --alignEndsType EndToEnd, --alignIntronMax 1). Upon mapping, aligned reads were sorted by samtools (5) and clustering, normalization and peak calling was performed with MACS (options: -w -S -g 1.35+08 -m 3,50) to produce bedgraph files of genomic coverage.
 
 ## Binned metagene profiles
-To calculate mean coverage across a metagene genomic coverage was overlapped with the protein coding gene from the above custom gene annotation with bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 100 equal sized parts and averages was calculated across values given by MACS in each bin and then across all genes by a custom script and this was plotted in R (7). 
+To calculate mean coverage across a metagene, genomic coverage was overlapped with protein coding genes from the above custom gene annotation with bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 100 equal sized parts, averages were calculated across values given by MACS in each bin and then across all genes by a custom script and this was plotted in R (7).
 
 ## Estimation of gene borders
-To reestimate the boundaries of protein coding genes and make them more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved and three datasets of TSS-seq, TIF-seq and PAS-seq were merged and normalized into a single data track for each strand separately for transcription start sites (TSS) and termination sites (TTS) along the genome. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls R over the genome length l
+To make boundaries of protein coding genes more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved andin-house and published datasets of TSS-seq, TIF-seq and PAS-seq were merged and normalized into a single data track for each strand separately for transcription start sites (TSS) and termination sites (TTS) along the genome. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls R over the genome length l.
 
 e=R/l
 
-The basecall count in each position was normalized to e for coverage to be comparable between datasets. After the coverage in position i, ci was calculated as ni it was added from all datasets, separated by strands and whether the data is indicative of TSS or TTS.
+The basecall count in each position was normalized to e for coverage to be comparable between datasets. After this, the coverage in position i, ci was calculated as ni and it was added across all datasets to produce a single track separated by strands and whether the data is indicative of TSS or TTS.
 
 n_i=c_i/e
 
 ## Quantification of rate of transcription
-In order to quantify rate of transcription pNET-seq datasets from (9) in  all conditions (total RNA, Unphosphorylated, Serine 2P and Serine 5P) corresponding to run IDs in supplementary table S1 were retrieved from the SRA FTP server. These libraries are paired-end with UMIs in the first 4 positions in each mate, where the first mate in shorter than the 2nd mate. Thus, the UMIs were trimmed and used for removal of reads that map to the same position and strand, allowing 1 mismatch in the 8 base UMI. The 2nd mate was mapped with STAR Ver 2.6.0c (options: --outSAMmultNmax 1, --seedSearchStartLmax 30, --alignEndsType EndToEnd, --alignIntronMax 1) and all uniquely mapping reads were selected, strand inverted and overlapped with the above gene annotation. Then overlapping reads from all libraries were merged and Transcripts Per Million (TPM) was calculated for each protein coding gene. 
+In order to quantify rate of transcription pNET-seq datasets from (9) in all conditions (total RNA, Unphosphorylated, Serine 2P and Serine 5P) corresponding to run IDs in supplementary table S1 were retrieved from the SRA FTP server. These libraries are paired-end with UMIs in the first 4 positions in each mate, where the first mate in shorter than the 2nd mate. Thus, the UMIs were trimmed and used for removal of reads that map to the same position and strand, allowing 1 mismatch in the 8 base UMI. The 2nd mate was mapped with STAR Ver 2.6.0c (options: --outSAMmultNmax 1, --seedSearchStartLmax 30, --alignEndsType EndToEnd, --alignIntronMax 1) and all uniquely mapping reads were selected, strand inverted and overlapped with the above gene annotation. Then overlapping reads from all libraries were merged and Transcripts Per Million (TPM) was calculated for each protein coding gene. 
 
 ## References
 1. 	Leinonen R, Sugawara H, Shumway M. The sequence read archive. Nucleic Acids Res. 2011; 

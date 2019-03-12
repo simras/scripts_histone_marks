@@ -3,23 +3,23 @@
 # Automatic ChIP pipeline
 #
 
-#TAIR10
+# TAIR10 genome location
 baseGDIR="/home/simras/Work/histone_mark_data/genome"
 genome="TAIR10.fa"
-#genome2="LFQT01.2.fsa_nt.fa"
-#Download_Folder
-downloads=$(pwd)/$1
-dat1="data/SRR2452455.fastq"
-#dat2="RNAseq/SRR2452456.fastq"
-#dat3="RNAseq/SRR2452457.fastq"
-STAR="../STAR/bin/Linux_x86_64/STAR"
-bam=Aligned.sortedByCoord.out.bam
-data=data
-set -x
-#set -e
-#
-#$STAR --runMode genomeGenerate --genomeFastaFiles $baseGDIR/$genome --genomeDir $baseGDIR/ --runThreadN 8
 
+# Download_Folder
+downloads=$(pwd)/$1
+
+# Data folder
+data=data
+
+set -x
+
+# SRA collects data from the Japanese Databank, EBI and NCBI. Origin of data is coded in the first three letters of the run ID
+# SRR, NCBI
+# ERR, EBI
+# DRR, Japanese Databank
+# These datacollections hav different download links which ccan be used for automated download.
 
 # process URL-List
 i=0
@@ -31,9 +31,9 @@ do
 
     if [ -z $(cat blacklist.txt |grep $ID) ]
     then
-	#    echo $link
+	#
 	# Download raw data wget ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByRun/sra/SRR/SRR001/SRR001115/SRR001115.sra
-	#echo ${ID:0:3}
+	
 	if [ ${ID:0:3} == "SRR" ]
 	then
 	    fname=$ID.sra
@@ -50,7 +50,7 @@ do
 	else
 	    if [ ${ID:0:3} == "DRR" ]
 	    then
-		echo "JAPANESE DATABANK DOWNLOAD MANUALLY", $fname
+		echo "JAPANESE DATABANK", $fname
 	    fi
 	    fname=$ID.fastq.gz
 	    link=ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${ID:0:6}/$ID/$fname

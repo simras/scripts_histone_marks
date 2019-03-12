@@ -60,11 +60,10 @@ expr="NET"
 #python add_expression.py -1 RNA-seq/norm_col0_RNA-seq_counts_mean.txt -2 genome/tmp2.bed > $feature_ann
 
 rm genome/tmp.bed #genome/tmp2.bed
-#./extract_introns.py genome/araport_annotation_exon.bed $region $win|sort|uniq > $feature_ann
-#./extract_introns.py genome/araport_annotation_exon.bed $region $win|sort|uniq > $feature_ann
 bins=100
 stranded="1"
 # donor sites
+# shortlist_plot.txt contains run IDs in first colunmn
 #for SRR in $(cut -f 1 shortlist_plot.txt)
 for SRR in TKR181200217 TKR181200218 SRR6661083 SRR6661084 SRR6661082 SRR6661081  SRR6661085 SRR6661086 SRR6661087 SRR6661088
 do
@@ -100,7 +99,6 @@ do
     overlap_file_m="overlap_"$name"_"$region"_ex_m.txt"
     overlap_file="overlap_"$name"_"$region"_ex.txt"
 
-#    rm profiles/"profile_"$bins"_reptrans"$expr"_bins_"$name"_"$region"_ex.txt"
     if [ ! -f  profiles/"profile_"$bins"_reptrans"$expr"_bins_"$name"_"$region"_ex.txt" ]
     then
 	touch  profiles/"profile_"$bins"_reptrans"$expr"_bins_"$name"_"$region"_ex.txt"

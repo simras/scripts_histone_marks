@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
 #
-#
+# Simon H. Rasmussen
 
 def extract_gene_ID(meta_info):
     for l in meta_info.split(";"):
@@ -16,7 +16,8 @@ def extract_gene_ID(meta_info):
 
 def mk_anno(expr_file, f2_name,cols):
     '''
-    Extracts annotations from a gff3 file
+    Extracts annotations from a gff3 file,
+    adds the expression value and produces a bed-file.
     '''
     f1 = open(expr_file)
     f2 = open(f2_name)
@@ -40,7 +41,7 @@ def mk_anno(expr_file, f2_name,cols):
             val_mean = val_mean + float(fields[int(c)])
             vals.append(float(fields[int(c)]))
 
-        # Possibly calc mean
+        # Calc mean
         val_mean = val_mean/len(vals)
 
         ex_dic[ex_ID] = val_mean
@@ -65,6 +66,8 @@ def mk_anno(expr_file, f2_name,cols):
             print "\t".join([chrom, start, end, fields[3], expression, strand])
         except:
             print "\t".join([chrom, start, end, fields[3], "NA", strand])
+
+
 # Regions
 # gene, 3utr, 5utr, cds, all, ncrna, lncrna
 
@@ -75,7 +78,7 @@ if __name__ == "__main__":
     
     parser.add_option("-1", action="store", type="string", dest="f1",default="", help="expression file")
     parser.add_option("-2", action="store", type="string", dest="f2",default="", help="Annotation file")
-    parser.add_option("-c", action="store", type="string", dest="cols",default="", help="Columns to consider (comma-separated list)")
+    parser.add_option("-c", action="store", type="string", dest="cols",default="", help="Columns to consider in expression file, 1-based. supple comma-separated list, more than 1 value will mean expression is  averaged")
 
     (options, args) = parser.parse_args()
 

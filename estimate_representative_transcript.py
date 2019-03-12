@@ -80,29 +80,10 @@ def norm_data(dat):
     return (float(R_all), loci)
 
 def read_data(dat, start_dicp, start_dicm, end_dicp, end_dicm):
-    #if start_dicp and not start_dicm and not  end_dicp and not end_dicm:
     # TSS-seq plus
     R, loci = norm_data(dat)
     ep = R/loci
-    #elif not start_dicp and start_dicm and not  end_dicp and not end_dicm:
-        # TSS-seq minus
-    #    R, loci = norm_data(dat, "-")
     em = R/loci
-    #elif start_dicp and start_dicm and end_dicp and end_dicm:
-        # TIF-seq plus
-    #    R, loci = norm_data(dat, "+")
-    #    ep = R/loci
-        # TIF-seq minus
-    #    em = R/loci
-    #elif not start_dicp and not start_dicm and end_dicp and end_dicm:
-        # TTS-seq plus
-    #    R, loci = norm_data(dat, "+-")
-    #    ep = R/loci
-        
-        # TTS-seq minus
-    #    R, loci = norm_data(dat, "-+")
-    #    em = R/loci
-    #print "R, loci, em, ep",R, loci, em, ep
     for datapoint in dat:
         if datapoint[0] == "t":
             continue
@@ -135,7 +116,6 @@ def read_data(dat, start_dicp, start_dicm, end_dicp, end_dicm):
                 else:
                     (start_dicp[correct_chrom(chrom)])[start] = (start_dicp[correct_chrom(chrom)])[start] + abs(val)/ep
             else:
-                # This should not happen
                 (start_dicm[correct_chrom(chrom)])[start] = (start_dicm[correct_chrom(chrom)])[start] + abs(val)/em
         elif not start_dicp  and not start_dicm :
             # TTS
@@ -195,8 +175,6 @@ def find_extremes(transcript_hash):
     for ID,genes in transcript_hash.items():
         extreme_list = copy.copy(extreme_list_init)
         for transcript in genes:
-            #if not extreme_hash.has_key(ID):
-            #    extreme_hash[ID] = extreme_list_init
             start = transcript[1]
             end = transcript[2]
             strand = transcript[3]
@@ -267,7 +245,7 @@ def overlay_data(ID,chrom, start_region, end_region, strand, data_hashes, w):
     
     
 def find_new_boundaries(genes_hash, data_hashes,n,w):
-    # 
+    
     for ID, transcript in genes_hash.items():
         # Expand by w
 
@@ -389,7 +367,7 @@ if __name__ == "__main__":
     parser.add_option("-4", action="store", type="string", dest="f4",default="", help="TIF"                   )
     parser.add_option("-5", action="store", type="string", dest="f5",default="", help="TTS"                   )
     parser.add_option("-6", action="store", type="string", dest="f6",default="", help="TTS"                   )
-    parser.add_option("-w", action="store", type="int", dest="w",default=0, help="Window to consider around min-max boundaries."                   )
+    parser.add_option("-w", action="store", type="int", dest="w",default=0, help="Window to consider around min-max boundaries.")
     parser.add_option("-n" , action="store_true", dest="nn" ,default=False, help="Don't print annotation")
     parser.add_option("-f" , action="store_true", dest="full" ,default=False, help="Don't print annotation")
 

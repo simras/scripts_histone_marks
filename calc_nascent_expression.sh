@@ -1,7 +1,6 @@
 #/bin/bash
 #
 #
-#
 # Simon H. Rasmussen
 #
 
@@ -10,6 +9,7 @@ set -x
 
 region="gene"
 feature_ann="genome/araport_annotation_gene_reptrans.bed"
+
 # All transcripts
 #feature_ann=genome/araport_annotation_gene.bed
 
@@ -21,24 +21,19 @@ feature_ann="genome/araport_annotation_gene_reptrans.bed"
 
 asense="1"
 
-# donor sites allpNETseq 
-for SRR in allpNETseq SRR6661081 SRR6661082 SRR6661085 SRR6661086 SRR6661087 SRR6661088 TKR181200217 TKR181200218 SRR6661083 SRR6661084
+for SRR in allpNETseq SRR6661081 SRR6661082 SRR6661085 SRR6661086 SRR6661087 SRR6661088 SRR6661083 SRR6661084 TKR181200217 TKR181200218
 do
-    #  
+    # 
     d=mapped/$SRR"_TAIR10.fa_sorted.bam"
-
     title=$(cat ID_to_title.txt|awk -v id=$SRR '{if (id == $1){print $2} }'|head -1)
     bam_dataset=$d
-    
     overlap_file="GRO_overlap_"$SRR"_"$region"_ex.bed"
-
-    #cat GRO_overlap_SRR6661081_gene_ex.bed GRO_overlap_SRR6661082_gene_ex.bed GRO_overlap_SRR6661083_gene_ex.bed GRO_overlap_SRR6661084_gene_ex.bed GRO_overlap_SRR6661085_gene_ex.bed GRO_overlap_SRR6661086_gene_ex.bed GRO_overlap_SRR6661087_gene_ex.bed GRO_overlap_SRR6661088_gene_ex.bed > GRO_overlap_allpNETseq_gene_ex.bed
     
     if [ ! -f $overlap_file ]
     then
 	if [ $asense ]
 	then
-	    # overlap with opporsite starnd
+	    # overlap with opposite starnd
 	    bedtools intersect -S -abam $bam_dataset -b $feature_ann -wb -bed > $overlap_file
 	else
 	    bedtools intersect -s -abam $bam_dataset -b $feature_ann -wb -bed > $overlap_file

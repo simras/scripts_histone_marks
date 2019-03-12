@@ -8,9 +8,6 @@ import sys
 import math
 
 def bin_profile(tss,bins):
-    # 
-    #
-    #
     profile = open(tss)
     for l in profile:
         ex_dict = []
@@ -36,11 +33,13 @@ def bin_profile(tss,bins):
             n = n - num - rest
         ii = 0
         bbb = b[ii]
+        
         # Iterate over values of genomic coverage in profile
         for val in pf:
             i = i + 1
             j = j + 1
             bin_sum = bin_sum + float(val)
+
             # new bin
             if j == bbb:
                 ex_dict.append(str(bin_sum/b[ii]))

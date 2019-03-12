@@ -1,6 +1,7 @@
 #!/usr/bin/Rscript
 #
 #
+# Simon H. Rasmussen, PhD
 #
 
 args = commandArgs(trailingOnly=TRUE)
@@ -30,11 +31,8 @@ c41 = c()
 c42 = c()
 m4 = c()
 
-#q1 = quantile(dat[! is.na(dat[,1]),1],probs=c(0.25,0.5,0.75),na.rm=F)[1]
 q= quantile(dat[! is.na(dat[,1]),1],probs=c(0.5),na.rm=F)[1]
-#q3 = quantile(dat[! is.na(dat[,1]),1],probs=c(0.25,0.5,0.75),na.rm=F)[3]
 
-#print(paste(q1,q2,q2))
 for (i in 2:length(dat[1,])){
     se = sd(dat[dat[,1] <= q & ! is.na(dat[,1]),i])/sqrt(length((dat[dat[,1] <= q & ! is.na(dat[,1]),i])))
     my_mean = mean(dat[dat[,1] <= q & ! is.na(dat[,1]),i])
@@ -43,22 +41,6 @@ for (i in 2:length(dat[1,])){
     c12 = c(c12, my_mean + 2* se)
     
 }
-#for (i in 2:length(dat[1,])){
-#    se = sd(dat[dat[,1] > q1 & dat[,1] <= q2 & ! is.na(dat[,1]),i])/sqrt(length((dat[dat[,1] > q1 & dat[,1] <= q2 & ! is.na(dat[,1]),i])))
- #   my_mean = mean(dat[dat[,1] > q1 & dat[,1] <= q2 & ! is.na(dat[,1]),i])
-  #  m2 = c(m2,my_mean)
-   # c21 = c(c21, my_mean - 2* se)
-   # c22 = c(c22, my_mean + 2* se)
-
-#}
-#for (i in 2:length(dat[1,])){
-#    se = sd(dat[dat[,1] > q2 & dat[,1] <= q3 & ! is.na(dat[,1]),i])/sqrt(length((dat[dat[,1] > q2 & dat[,1] <= q3 & ! is.na(dat[,1]),i])))
- #   my_mean = mean(dat[dat[,1] > q2 & dat[,1] <= q3 & ! is.na(dat[,1]),i])
- #   m3 = c(m3,my_mean)
- #   c31 = c(c31, my_mean - 2* se)
- #   c32 = c(c32, my_mean + 2* se)
-
-#}
 for (i in 2:length(dat[1,])){
     se = sd(dat[dat[,1] > q & ! is.na(dat[,1]),i])/sqrt(length((dat[dat[,1] > q & ! is.na(dat[,1]),i])))
     my_mean = mean(dat[dat[,1] > q & ! is.na(dat[,1]),i])
@@ -73,19 +55,10 @@ c2="deepskyblue3"
 c3="yellow"
 c4="pink"
 
-#row.names(c12) = "Gene Body"
 pdf(file=paste(outname,"_",win1,"_",win2,".pdf",sep=""),width=16,height=8)
 plot(c12 ,type = "l", col="lightgray", lwd=3.5, lty=3, xaxt="n", xlab="Gene Body", ylab="Mean Coverage",ylim=c(0,max(c12,m1,c11,c42,m4,c41)))
 lines(m1, col=c1, lwd=2.5)
 lines(c11, col="lightgray",lwd=3.5,lty=3)
-
-#lines(c22, main=title , col="lightgray", lwd=3.5, lty=3, xaxt="n")
-#lines(m2, col=c2, lwd=2.5)
-#lines(c21, col="lightgray",lwd=3.5,lty=3)
-
-#lines(c32, main=title , col="lightgray", lwd=3.5, lty=3, xaxt="n")
-#lines(m3, col=c3, lwd=2.5)
-#lines(c31, col="lightgray",lwd=3.5,lty=3)
 
 lines(c42, main=title , col="lightgray", lwd=3.5, lty=3, xaxt="n")
 lines(m4, col=c4, lwd=2.5)

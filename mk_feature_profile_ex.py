@@ -33,7 +33,6 @@ def make_feature_profile(fn1,fn2,flip):
         ex_dic[gen_cov_ID] = expression 
 
     for f_line in feature_score_file:
-        # 
         line_list =  f_line.split()
         
         # load bed info

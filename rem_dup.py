@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#
+# Simon H. Rasmussen
 # 
 
 import sys
@@ -65,8 +65,8 @@ def len_from_cigar(CIGAR):
         lets.append(letter)
         number = ""
         letter = ""
-  #  print nums
-  #  print lets
+  
+  
     #                                                                    Q   R
     # M 0 alignment match (can be a sequence match or mismatch)         yes yes
     # I 1 insertion to the referenceyesnoD2deletion from the reference   no yes
@@ -85,7 +85,6 @@ def len_from_cigar(CIGAR):
     return ll
 
 def proc_bin_str(bitdec):
-    #print bitdec
     bitstr = bin(int(bitdec))
     return str(bitstr)[2:]
 
@@ -98,24 +97,17 @@ def read_bam(rem_dup,rem_dup_nobar):
     u = 0
     bc = 0
     nbc = 0
-    #fm = 0
-    #sm = 0
     um = 0
     num = 0
     unique_reads = {}
     if rem_dup != "":
         barcode_file = open(rem_dup)
     for l in sys.stdin:
-        #print l
         ll = l.split()
         ID = ll[0]
-        #print ll
         bindec = ll[1]
         mapq = int(ll[4])
         binstr = proc_bin_str(int(bindec))[::-1]
-        #print ll[0]
-        #print l
-        #print binstr[1], ll[6], mapq
         if len(binstr) > 0:
             if binstr[0] == "1":
                 pe = pe + 1
@@ -138,10 +130,8 @@ def read_bam(rem_dup,rem_dup_nobar):
                     
                     if  rem_dup != "" and len(barcode_line.split()) > 1:
                         barcode = barcode_line.split()[1]
-                        #print ID, b_ID
                     if rem_dup != "":
                         while not ID == b_ID:
-                            #                        print ID, barcode
                             barcode_line = barcode_file.readline()
                             b_ID = (barcode_line.split()[0])[1:]
                             if len(barcode_line.split()) > 1:
@@ -153,16 +143,13 @@ def read_bam(rem_dup,rem_dup_nobar):
                         elif rem_dup_nobar:
                             unique_reads[alignment_ID] = ""
                             
-                        # print read
                         print l,
                         nbc = nbc + 1
                     else:
                         if rem_dup != "" and not is_similar(barcode, unique_reads[alignment_ID],1):
                             unique_reads[alignment_ID].append(barcode)
-                            # print read
                             bc = bc + 1
                             print l,
-    #            print l
         if len(binstr) > 2:
             if binstr[2] == "1":
                 # unmapped
@@ -173,53 +160,36 @@ def read_bam(rem_dup,rem_dup_nobar):
                 # next unmapped
                 num = num + 1
                 None
-                #print l
-                #print "Next unmapped"
         if len(binstr) > 4:
             if binstr[4] == "1":
                 None
-         #       print "reverse complemented"
         if len(binstr) > 5:
             if binstr[5] == "1":
                 None
-         #       print "next reverse complemented"
         if len(binstr) > 6:
             if binstr[6] == "1":
                 None
-         #       print "first segment"
         if len(binstr) > 7:
             if binstr[7] == "1":
                 None
-          #      print "last segment"
         if len(binstr) > 8:
             if binstr[8] == "1":
                 None
-          #      print "secondary"
         if len(binstr) > 9:
             if binstr[9] == "1":
                 None
-                #print l
-          #       print "QC fail"
-              
         if len(binstr) > 10:
             if binstr[10] == "1":
-                #print "duplicate"
                 None
         if len(binstr) > 11:
             if binstr[11] == "1":
-                #print "supplementary"
                 None
-        #    print m, pe, u, um, num
     if rem_dup != "":
         print >> sys.stderr, "Uniquely mapped reads:", u, "collapsed(no barcodes)",nbc ,"collapsed(barcodes)",bc + nbc
     elif rem_dup_nobar:
         print >> sys.stderr, "Uniquely mapped reads:", u, "collapsed(no barcodes)",nbc
     else:
         print >> sys.stderr, "Uniquely mapped reads:", u
-
-            #if rem_dup != "":
-        #for read, barcodes in unique_reads.items():
-           # print read.split("_"), len(barcodes)
             
 # 1 0x1 template having multiple segments in sequencing
 # 2 0x2 each segment properly aligned according to the aligner
@@ -241,8 +211,6 @@ if __name__ == "__main__":
     parser.add_option("-d", action="store", type="string", dest="rem_dup_bar",default="", help="remove duplicted reads using barcodes")
     parser.add_option("-c", action="store_true", dest="rem_dup",default=False, help="Removed duplicated reads without barcodes")
     
-    #  parser.add_option("-3", action="store", type="int", dest="trim_three",default=0, help="number of bases to trim if adapter has been removed")
-    # parser.add_option("-5", action="store", type="int", dest="trim_five",default=0, help="number of bases to trim if adapter has been removed")
 
     (options, args) = parser.parse_args()
 

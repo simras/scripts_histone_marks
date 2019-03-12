@@ -7,6 +7,7 @@
 
 #set -x
 
+
 # Standard illumina adapter
 ad1=AGATCGGAAGAGC
 

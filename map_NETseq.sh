@@ -5,12 +5,22 @@
 
 #set -e
 set -x
+
+
+# Bedgraph folder
+bedgraphs="."
+mapped="."
+logs="."
+
+# data folder
+data="."
+
 #TAIR10
 baseGDIR="/home/simras/Work/histone_mark_data/genome"
 genome="TAIR10.fa"
 
 #Download_Folder
-downloads=data/
+downloads="."
 
 STAR="/home/simras/Work/STAR/bin/Linux_x86_64/STAR"
 MACS=/home/simras/Work/MACS-1.4.2/bin/macs14
@@ -20,11 +30,11 @@ adapt="AGATCGGAAGAGC"
 
 i=0
 j=0
-mapped=0
+mapped_b=0
+
 # put run IDs
-for SRR in SRR6661083 SRR6661084 SRR6661085 SRR6661086 SRR6661087 SRR6661088 TKR181200218 TKR181200217 SRR6661081 SRR6661082   
+for SRR in $(cat SRRIDs.txt)
 do
-    
     tmp=${SRR%.fastq.gz}
     tmp1=${tmp%_*}
     SRR_ID=${tmp1##*/}
@@ -43,12 +53,12 @@ do
 	dat2=""
     fi
     
-    new_bam=/home/simras/data/mapped/$SRR_ID\_$genome.bam
-    sorted_bam=/home/simras/data/mapped/$SRR_ID\_$genome"_"sorted.bam
+    new_bam=$mapped/$SRR_ID\_$genome.bam
+    sorted_bam=$mapped/$SRR_ID\_$genome"_"sorted.bam
     #rm  $sorted_bam
     if [ ! -f $sorted_bam ]
     then
-	mapped=1
+	mapped_b=1
 	if [ $PAIRED == "T" ]
 	then
 	    datno1=$downloads/$SRR_ID"_nodups_1.fastq.gz"
@@ -64,14 +74,11 @@ do
 	    cutadapt -a $ad1 -j 4 -o $datno1 $dat1
 	    cutadapt -a $ad2 -j 4 -o $datno2 $dat2
 	    
-	    ./trimBases.py -f $datno1 -5 4 -3 4 -o $SRR_ID"_barcodes_1.txt" 1> /dev/null &
-	    ./trimBases.py -f $datno2 -5 4 -3 4 -o $SRR_ID"_barcodes_2.txt"|gzip -9 > $dat_2_trim & 
-	    rm $sorted_bam data/bedgraphs/$SRR_ID\_treat_afterfiting_all.bdg.gz
+	    ./trimBases.py -f $datno1 -5 4 -3 4 -o $SRR_ID"_barcodes_1.txt" 1> /dev/null 
+	    ./trimBases.py -f $datno2 -5 4 -3 4 -o $SRR_ID"_barcodes_2.txt"|gzip -9 > $dat_2_trim
 
-	    cd map_test2
 	    $STAR --genomeDir $baseGDIR  --readFilesIn ../$dat_2_trim --runThreadN 8 --outSAMtype BAM Unsorted --readFilesCommand "zcat" --seedSearchStartLmax 30 --alignEndsType EndToEnd --alignIntronMax 1 --outSAMmultNmax 1
 	    mv Aligned.out.bam "Aligned_"$SRR_ID".bam"
-	    cd ..
 	    
 	    join $SRR_ID"_barcodes_1.txt" $SRR_ID"_barcodes_2.txt"|awk '{con=$2$3;print $1"\t"con}' > $SRR_ID"_barcodes.txt"
 	    cat $SRR_ID"_barcodes.txt"|sort -k1,1 > $SRR_ID"_tmp.txt"
@@ -79,18 +86,18 @@ do
 	else
 	    $STAR --genomeDir $baseGDIR  --readFilesIn $dat1 --runThreadN 8 --outSAMtype BAM Unsorted --clip3pAdapterSeq $adapt --readFilesCommand "zcat" --seedSearchStartLmax 30 --alignEndsType EndToEnd --alignIntronMax 1 --outSAMmultNmax 1
 	fi
-	new_bam=mapped/$SRR_ID\_$genome.bam
+	new_bam=$mapped/$SRR_ID\_$genome.bam
 	
 	if [ ! -f $new_bam ]
 	then
-	    new_sam=mapped/$SRR_ID\_$genome.sam
-	    samtools view -H "map_test2/Aligned_"$SRR_ID".bam" > $new_sam
-	    samtools view "map_test2/Aligned_"$SRR_ID".bam"|sort -k1,1|./rem_dup.py -d $SRR_ID"_barcodes.txt" >> $new_sam 
+	    new_sam=$mapped/$SRR_ID\_$genome.sam
+	    samtools view -H "Aligned_"$SRR_ID".bam" > $new_sam
+	    samtools view "Aligned_"$SRR_ID".bam"|sort -k1,1|./rem_dup.py -d $SRR_ID"_barcodes.txt" >> $new_sam 
 	    samtools view -Sb $new_sam > $new_bam
 	    rm $new_sam
-	    mv map_test2/Log.final.out logs/$SRR_ID\_Log.final_2.out
-	    mv map_test2/Log.out logs/$SRR_ID\_Log_2.out
-	    mv map_test2/Log.progress.out logs/$SRR_ID\_Log.progress_2.out
+	    mv Log.final.out $logs/$SRR_ID\_Log.final_2.out
+	    mv Log.out $logs/$SRR_ID\_Log_2.out
+	    mv Log.progress.out $logs/$SRR_ID\_Log.progress_2.out
 	    samtools sort $new_bam > $sorted_bam
 	    rm $new_bam
 	fi

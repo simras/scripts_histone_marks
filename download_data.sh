@@ -11,7 +11,7 @@ genome="TAIR10.fa"
 downloads=$(pwd)/$1
 
 # Data folder
-data=data
+data=$downloads
 
 set -x
 

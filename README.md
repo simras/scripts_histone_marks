@@ -40,7 +40,7 @@ Then the following script calculates averages across bins
 ## 4. Analysis of pNET-seq and estimation of rate of transcription
 Commandline for merging pNET-seq dataset can be found in 
 
-    bashcommands.sh
+    bash_commands.sh
 
 Merging is done after initial overlap-analysis of each dataset in calc_nascent_expression.sh 
     

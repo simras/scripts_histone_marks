@@ -1,4 +1,4 @@
-# Scripts used to produce metagene profiles of ChIP-seq histone marks in <i>Arabidopsis Thaliana<\i>.
+# Scripts used to produce metagene profiles of ChIP-seq histone marks in <i>Arabidopsis Thaliana<i>.
 
 ## 1. Retrieval of data
 Will download datasets from SRA specified in a file SRRID.txt and unpack the SRA files to fastq.gz.

@@ -77,12 +77,15 @@ All histone marks ChIP-seq datasets in wild type col-0 Arabidopsis Thaliana seed
 Before mapping, 3’adapters were removed by a custom script that removes the most frequent of 4 different commonly used adapter sequences from the 3’end of single-end reads or 3’end of both mates in paired-end reads with cutadapt (3). Reads from ChIP-seq libraries were aligned to the Arabidopsis Thaliana genome TAIR10 using the STAR Ver 2.60c aligner (4) (options: --outSAMmultNmax 1, --seedSearchStartLmax 30, --alignEndsType EndToEnd, --alignIntronMax 1). Upon mapping, aligned reads were sorted by samtools (5) and clustering, normalization and peak calling was performed with MACS (options: -w -S -g 1.35+08 -m 3,50) to produce bedgraph files of genomic coverage.
 
 ## Binned metagene profiles
-To calculate mean coverage across a metagene genomic coverage was overlapped with the protein coding gene from the above custom gene annotation with bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 100 equal sized parts and averages was calculated across values given by MACS in each bin and then across all genes by a custom script and this was plotted in R (7), see Figure 1. 
+To calculate mean coverage across a metagene genomic coverage was overlapped with the protein coding gene from the above custom gene annotation with bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 100 equal sized parts and averages was calculated across values given by MACS in each bin and then across all genes by a custom script and this was plotted in R (7). 
 
 ## Estimation of gene borders
 To reestimate the boundaries of protein coding genes and make them more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved and three datasets of TSS-seq, TIF-seq and PAS-seq were merged and normalized into a single data track for each strand separately for transcription start sites (TSS) and termination sites (TTS) along the genome. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls over the genome length.
+
 e=R/l
+
 The basecall count in each position was normalized to e for coverage to be comparable between datasets. After the coverage in position i, ci was calculated as ni it was added from all datasets, separated by strands and whether the data is indicative of TSS or TTS.
+
 n_i=c_i/e
 
 ## Quantification of rate of transcription

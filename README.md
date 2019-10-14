@@ -1,35 +1,41 @@
 # Scripts used to produce metagene profiles of ChIP-seq histone marks in <i>Arabidopsis Thaliana<i>.
-
+The following set of scripts define a pipeline for retrieval of sequencing libraries in Sequence Read Archive (SRA), an analysis pipeline and scripts for data preparation and visualization. To run they require installation of a number of freely available Bioinformatics tools and paths to these have to be specified in the scripts if they diverge for proper operation.
+    
 ## 1. Retrieval of data
-Will download datasets from SRA specified in a file SRRID.txt and unpack the SRA files to fastq.gz.
+To retrieve and uncompress the sequencing data files that will be analyzed, their run ID which starts with SRR (if submitted in the US server) has to be specified in a file (SRRID.txt) and this file should be present at a path specified in the script. The script will produce a fastq.gz data format as output and organize the data in the specified folder structure. Th name of the script is as follows.
 
     download_data.sh
 
 ## 2. processing and mapping of ChIP-seq data
 
 ### Pipeline for mapping ChIP-seq histone Mark data (and RNA-seq with a few alterations)
+This pipeline has been used to analyze paired-end and single end ChIP-seq data and RNA-seq data. The STAR aligner is used to map against the genome for the ChIP-seq data.
 
     map_RNAseq_data.sh
 
 ### Script to estimate the most frequent 3'end adapter sequence in a dataset
+In order to map the ChIP-seq data 3'end adapter sequences had to be removed in most datasets. We do not know with ceertainty which sequence this adapter, but know the most commonly used adapter sequences. The following script tests which of the know adapters is present in most reads and selects this for later trimming. How exactly this is done depends on some parameters like whether the dataset is single-end or paired-end.
 
     pick_adapter.sh
 
 ## 3. Making metagene profiles
+In order to visualize coverage along transcripts mapped reads are quantified at each genomic position and mapped onto most relevant gene annotated and its flanks. To be able to visualize data coverage on a standard metagene all gene and up- and down stream flanks were binned where the size of sequence binned is proportionel to the gene length. 
 
 ### Scripts to produce binnned metagene profiles
-
-    mk_binned_metagene_ex_shortlist_50.sh
-    
-It depends on this scripts, first profiles are calculated across each genomic region and plotted by
+The above happened in two steps, first coverage was calculated along each annotated gene selected and flank with the below script
 
     mk_feature_profile_ex.py
+
+Then these profiles are binned
+
+    mk_binned_metagene_ex_shortlist_50.sh  
     
 Then the following script calculates averages across bins
 
     binnned_profile.py
 
-### Script to plot a metagene profile of a single dataset for different gneesets selected by rate of transcript
+### Script to plot a metagene profile of a single dataset for different datesets selected by rate of transcription
+To explore how ChIP-se occupancy changes with rate of transcription (measured by pNET-seq).
 
     print_profile_ex_50pct.R
 
@@ -45,7 +51,7 @@ Commandline for merging pNET-seq dataset can be found in
 Merging is done after initial overlap-analysis of each dataset in calc_nascent_expression.sh 
     
 ### Pipeline for mapping and processing of pNET-seq data.
-The pipeline for analysing pNET.seq depends on the below scripts for processing the pNET-seq data.
+The pipeline for analysing pNET.seq is the following and it depends on the below scripts for processing the pNET-seq data.
 
     map_NETseq.sh
 
@@ -66,9 +72,9 @@ these 8 base barcodes are used to remove duplicated reads with
 
     estimate_representative_transcript.py
 
-## Details described below
+## More details described below
 
-All custom Python, Bash and R scripts used in the computational analyses below are shared here.
+All important custom Python, Bash and R scripts used in the computational analyses below are shared here.
 
 ## Retrieval of data
 All histone mark ChIP-seq datasets are wild type Col-0 Arabidopsis Thaliana seedlings, 5 days to 3 weeks old (see supplementary table S1 for more information). These data sets were identified through queries to the SRA (1) and DNA Data Bank of Japan (DDBJ) (2). Upon identification, SRA-files were retrieved from the SRA FTP-server and uncompressed from SRA format using fastq-dump.

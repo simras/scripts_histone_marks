@@ -67,6 +67,9 @@ these 8 base barcodes are used to remove duplicated reads with
 ### Script that calculates the rate of transcription from pNET-seq data
 
     calc_nascent_expression.sh
+    
+### Script to calculate TPM
+    GRO_seq_expression.py
 
 ### Script that can estimate new gene boundries based on TSS-seq, TIF-seq and PAS-seq data in bedgraph format
 

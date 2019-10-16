@@ -75,7 +75,8 @@ def mk_anno(ann_file, f2_name):
     Asum = 1000000/tpm_const(len_dic,ex_dic)
     for ID,c in ex_dic.items():
         l = float(len_dic[ID])
-        A=(c * 1000)/l
+        #A=(c * 1000)/l
+        A=c/l
         TPM = A*Asum
         print "\t".join([ID,str(TPM)])
     

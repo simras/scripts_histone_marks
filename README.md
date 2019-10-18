@@ -30,7 +30,7 @@ First appropriate data sets are produced
 
     mk_binned_metagene_ex_shortlist_50.sh
     
-This script does the binning and calculations
+Then this script does the binning and calculations
 
     binnned_profile.py
 

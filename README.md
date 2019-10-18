@@ -77,7 +77,7 @@ these 8 base barcodes are used to remove duplicated reads with
 
 ## More details described below
 
-All important custom Python, Bash and R scripts used in the computational analyses below are shared here.
+All important custom Python, Bash and R scripts used in the computational analyses of (<paper ref>) below are shared here.
 
 ## Retrieval of data
 All histone mark ChIP-seq datasets are wild type Col-0 Arabidopsis Thaliana seedlings, 5 days to 3 weeks old (see supplementary table S1 for more information). These data sets were identified through queries to the SRA (1) and DNA Data Bank of Japan (DDBJ) (2). Upon identification, SRA-files were retrieved from the SRA FTP-server and uncompressed from SRA format using fastq-dump.

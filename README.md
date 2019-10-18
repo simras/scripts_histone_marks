@@ -1,8 +1,8 @@
 # Scripts used to produce metagene profiles of ChIP-seq histone marks in <i>Arabidopsis Thaliana<i>.
-The following set of scripts define a pipeline for retrieval of sequencing libraries in Sequence Read Archive (SRA), an analysis pipeline and scripts for data preparation and visualization. To run they require installation of a number of freely available Bioinformatics tools and paths to these have to be specified in the scripts if they diverge for proper operation.
+The following set of scripts define a pipeline for retrieval of sequencing libraries in Sequence Read Archive (SRA), an analysis pipeline and scripts for data preparation and visualization. To run they require installation of a number of freely available Bioinformatics tools and paths to these may need to be changed in the scripts for proper operation.
     
 ## 1. Retrieval of data
-To retrieve and uncompress the sequencing data files that will be analyzed, their run ID which starts with SRR (if submitted in the US server) has to be specified in a file (SRRID.txt) and this file should be present at a path specified in the script. The script will produce a fastq.gz data format as output and organize the data in the specified folder structure. Th name of the script is as follows.
+To retrieve and uncompress the sequencing data files that will be analyzed, their run ID which starts with SRR (if submitted in the US server) has to be specified in a file (SRRID.txt) and this file should be present at a path specified in the below script. The script will produce a fastq.gz data format as output and organize the data in the specified folder structure. The name of the script is as follows.
 
     download_data.sh
 
@@ -13,16 +13,16 @@ This pipeline has been used to analyze paired-end and single end ChIP-seq data a
 
     map_RNAseq_data.sh
 
-### Script to estimate the most frequent 3'end adapter sequence in a dataset
-In order to map the ChIP-seq data 3'end adapter sequences had to be removed in most datasets. We do not know with ceertainty which sequence this adapter, but know the most commonly used adapter sequences. The following script tests which of the know adapters is present in most reads and selects this for later trimming. How exactly this is done depends on some parameters like whether the dataset is single-end or paired-end.
+### Estimating which is the most frequent 3'end adapter sequence in a dataset
+In order to map the ChIP-seq data 3'end adapter sequences had to be removed in most datasets. We do not know with certainty which is the sequence of this adapter, but we know the most commonly used adapter sequences. The following script tests which of the know adapters is present in most reads and selects this for later trimming.
 
     pick_adapter.sh
 
 ## 3. Making metagene profiles
-In order to visualize coverage along transcripts mapped reads are quantified at each genomic position and mapped onto most relevant gene annotated and its flanks. To be able to visualize data coverage on a standard metagene all gene and up- and down stream flanks were binned where the size of sequence binned is proportionel to the gene length. 
+In order to visualize coverage along transcripts mapped reads are quantified at each genomic position and mapped onto most relevant gene annotated and its flanks. To be able to visualize data coverage on a standard metagene, all gene were binned where the size of sequence associated to the bin is proportionel to the gene length. Up and down stream flanks were binned in fixed sized bins (10 nt).
 
-### Scripts to produce binnned metagene profiles
-The above happened in two steps, first coverage was calculated along each annotated gene selected and flank with the below script
+### Producing binnned metagene profiles
+Binning of genomic positions happens in two steps, first coverage is calculated along each annotated gene selected and its flanks with the below script
 
     mk_feature_profile_ex.py
 

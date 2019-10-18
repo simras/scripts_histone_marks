@@ -26,22 +26,26 @@ Binning of genomic positions happens in two steps, first coverage is calculated 
 
     mk_feature_profile_ex.py
 
-Then these profiles are binned
+First appropriate data sets are produced
 
-    mk_binned_metagene_ex_shortlist_50.sh  
+    mk_binned_metagene_ex_shortlist_50.sh
     
-Then the following script calculates averages across bins
+This script does the binning and calculations
 
     binnned_profile.py
 
-### Script to plot a metagene profile of a single dataset for different datesets selected by rate of transcription
-To explore how ChIP-se occupancy changes with rate of transcription (measured by pNET-seq).
-
-    print_profile_ex_50pct.R
+### Plotting a metagene profile of a single dataset for different datesets selected by rate of transcription
+To explore how ChIP-seq occupancy changes with rate of transcription (measured by pNET-seq) scripts have been developed to plot ChIP-seq occupancy on metagenes
 
 ### Plotting many metagene profiles in one plot
+In one visualization genes are divided by transcrion rate in 10th, 20th,... quantiles, the an occupancy line is plotted for each group across the metagene.
 
     plot_histone_marks.R
+
+### Plotting many metagene profiles in one plot
+First an intermediate data format is created to easy processing of the big dataset. Then the data sets are loaded z-score normalized and this script will plot data on genes with rate of transcription not in the lower and higher 25th quantiles.
+
+    print_profile_ex_50pct.R
 
 ## 4. Analysis of pNET-seq and estimation of rate of transcription
 Commandline for merging pNET-seq dataset can be found in 
@@ -69,6 +73,7 @@ these 8 base barcodes are used to remove duplicated reads with
     calc_nascent_expression.sh
     
 ### Script to calculate TPM
+
     GRO_seq_expression.py
 
 ### Script that can estimate new gene boundries based on TSS-seq, TIF-seq and PAS-seq data in bedgraph format

@@ -55,7 +55,7 @@ Commandline for merging pNET-seq dataset can be found in
 Merging is done after initial overlap-analysis of each dataset in calc_nascent_expression.sh 
     
 ### Pipeline for mapping and processing of pNET-seq data.
-To estimate rate of transcription from pNET-seq data it takes a number of step of processing. The following pipelione does
+To estimate rate of transcription from pNET-seq data it takes a number of steps of processing before mapping and quantification. This is all done in the following script. Only 2nd mate is used and mapped by STAR and quantification is done using custom scripts.
 
     map_NETseq.sh
 
@@ -68,13 +68,14 @@ these 8 base barcodes are used to remove duplicated reads with
     
     rem_dup.py
 
+3'end adapters are also removed with cutadapt.
+
 ### Calculating the rate of transcription from pNET-seq data
+Following scripts are needed for calculating rate of transcription measured by transcripts per million (TPM). First 
 
     calc_nascent_expression.sh
     
-### Script to calculate TPM
-
-    GRO_seq_expression.py
+    GRO_seq_expression_readdict.py
 
 ### Estimating new gene boundries based on TSS-seq, TIF-seq and direct RNA-seq data
 To improve the annotation and make it more tissue specific, boundaries of genes were corrected by data indicative of transcription start site and termination site. The data sets were normalized and aggregated and then genes were corrected by the maximal data point in a plausible region around annotated TSS and TTS. 

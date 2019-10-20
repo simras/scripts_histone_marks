@@ -93,9 +93,13 @@ Before mapping, 3’adapters were removed by a custom script that removes the mo
 To calculate mean coverage across a metagene, genomic coverage was overlapped with the above annotation of protein coding genes using bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 200 equal sized parts for each gene, then average coverage was calculated across all genes for each bin separately by a custom script. Upstream and downstream 500 nt flanks of the gene were divided into 100 bins each 5 nt and average genomic coverage was calculated like for the gene body. To quantify relative enrichment along the metagene and flank, z-scores were finally calculated by withdrawing the mean enrichment and dividing by the standard deviation and these Z-scores were plotted in R (7).
 ## Estimation of gene borders
 To make boundaries of protein coding genes more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved and in-house and published datasets of TSS-seq, TIF-seq and Direct RNA-Seq (DR-Seq) were merged and normalized into a four data tracks along the genome, one for transcription start site track for each strand (TSS) and one termination site track (TTS) for each strand. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls R over the genome length l.
+    
     e=R/l
+    
 The basecall count in each position ci was normalized to ni as follows. 
+    
     n_i=c_i/e
+    
 Assignment of a new gene TSS or TTS was done if there was a non-zero datapoint in the corresponding data track which was inside the boundary window around respectively TSS or TTS. If there were more than one data non-zero point the coordinate of the maximal datapoint was selected and assigned to the gene feature in question. These boundary windows were estimated by including all transcript boundaries and protein boundaries annotated for a gene, choosing the minimal and maximal boundaries as window borders around TSS and TTS separately. The idea is that we can only refine boundaries of UTRs and not shorten the protein or define a new UTR longer than ever observed.
 
 ## Quantification of rate of transcription

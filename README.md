@@ -85,23 +85,23 @@ To improve the annotation and make it more tissue specific, boundaries of genes 
 ## More details described below
 
 All important custom Python, Bash and R scripts used in the computational analyses of (<paper ref>) below are shared here.
-Retrieval of data
+## Retrieval of data
 All histone mark ChIP-seq datasets are wild type Col-0 Arabidopsis Thaliana seedlings, 5 days to 3 weeks old (see supplementary table S1 for more information). These data sets were identified through queries to the SRA (1) and DNA Data Bank of Japan (DDBJ) (2). Upon identification, SRA-files were retrieved from the SRA FTP-server and uncompressed from SRA format using fastq-dump part of SRA tools.
-Mapping and calculation of genomic coverage
+## Mapping and calculation of genomic coverage
 Before mapping, 3’adapters were removed by a custom script that removes the most frequent of 4 different commonly used adapter sequences from the 3’end of single-end reads or 3’end of both mates in paired-end reads with cutadapt (3). Reads from ChIP-seq libraries were aligned to the Arabidopsis Thaliana genome TAIR10 using the STAR Ver 2.60c aligner (4) (options: --outSAMmultNmax 1, --seedSearchStartLmax 30, --alignEndsType EndToEnd, --alignIntronMax 1). Upon mapping, aligned reads were sorted by samtools (5) and clustering, normalization and peak calling was performed with MACS2 (options: -w -S -g 1.35+08 -m 3,50) to produce bedgraph files of genomic coverage. With these options MACS2 uses reads on both strands to estimate the average fragment size and extends reads accordingly to correct shifted signal of single-end protocols.   
-Binned metagene profiles
+## Binned metagene profiles
 To calculate mean coverage across a metagene, genomic coverage was overlapped with the above annotation of protein coding genes using bedtools intersect (6). The genomic coverage profiles along the gene body were then divided into 200 equal sized parts for each gene, then average coverage was calculated across all genes for each bin separately by a custom script. Upstream and downstream 500 nt flanks of the gene were divided into 100 bins each 5 nt and average genomic coverage was calculated like for the gene body. To quantify relative enrichment along the metagene and flank, z-scores were finally calculated by withdrawing the mean enrichment and dividing by the standard deviation and these Z-scores were plotted in R (7).
-Estimation of gene borders
+## Estimation of gene borders
 To make boundaries of protein coding genes more tissue specific to Col-0 seedling the Araport11 gene annotation (8) was retrieved and in-house and published datasets of TSS-seq, TIF-seq and Direct RNA-Seq (DR-Seq) were merged and normalized into a four data tracks along the genome, one for transcription start site track for each strand (TSS) and one termination site track (TTS) for each strand. Normalization was done by first calculating the average coverage e for each dataset as the fraction of basecalls R over the genome length l.
-e=R/l
+    e=R/l
 The basecall count in each position ci was normalized to ni as follows. 
-n_i=c_i/e
+    n_i=c_i/e
 Assignment of a new gene TSS or TTS was done if there was a non-zero datapoint in the corresponding data track which was inside the boundary window around respectively TSS or TTS. If there were more than one data non-zero point the coordinate of the maximal datapoint was selected and assigned to the gene feature in question. These boundary windows were estimated by including all transcript boundaries and protein boundaries annotated for a gene, choosing the minimal and maximal boundaries as window borders around TSS and TTS separately. The idea is that we can only refine boundaries of UTRs and not shorten the protein or define a new UTR longer than ever observed.
 
-Quantification of rate of transcription
+## Quantification of rate of transcription
 In order to quantify rate of transcription, pNET-seq datasets from (9) in all conditions (total RNA, Unphosphorylated, Serine 2P and Serine 5P) corresponding to run IDs in supplementary table S1 were retrieved from the SRA FTP server. These libraries are paired-end with UMIs in the first 4 positions in each mate. 3’end adapters were removed with cutadapt (3), the UMIs were trimmed and used for removal of reads with the same sequence, allowing 1 mismatch in the 8 base UMI.  The 2nd mate was mapped with STAR ver 2.6.0c (options: --outSAMmultNmax 1, --seedSearchStartLmax 30, --alignEndsType EndToEnd, --alignIntronMax 1) and all uniquely mapping reads were selected, strand inverted and overlapped with the above described gene annotation. Then overlapping reads from all libraries were merged, associated to genes by overlapping with gene annotation with bedtools intersect (6) and Transcripts Per Million (TPM) was calculated for each protein coding gene with a custom python script. Finally, each gene was associated the corresponding TPM value and the genes with highest (25th higher quantile) and lowest (25th lower quantile) rates of transcription exhibited length bias. So, these data in the 25th higher and lower quantiles were discarded from the final dataset, which was used to plot the metagene profiles.
 
-References
+## References
 1. 	Leinonen R, Sugawara H, Shumway M. The sequence read archive. Nucleic Acids Res. 2011; 
 2. 	Kaminuma E, Mashima J, Kodama Y, Gojobori T, Ogasawara O, Okubo K, et al. DDBJ launches a new archive database with analytical tools for next-generation sequence data. Nucleic Acids Res. 2009; 
 3. 	Martin M. Cutadapt removes adapter sequences from high-throughput sequencing reads. EMBnet.journal. 2011; 

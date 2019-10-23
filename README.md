@@ -19,7 +19,7 @@ In order to map the ChIP-seq data 3'end adapter sequences had to be removed in m
     pick_adapter.sh
 
 ## 3. Making metagene profiles
-In order to visualize coverage along transcripts mapped reads are quantified at each genomic position and mapped onto most relevant gene annotated and its flanks. To be able to visualize data coverage on a standard metagene, all gene were binned where the size of sequence associated to the bin is proportionel to the gene length. Up and down stream flanks were binned in fixed sized bins (10 nt).
+In order to visualize coverage along transcripts mapped reads are quantified at each genomic position and mapped onto most relevant gene annotated and its flanks. To be able to visualize data coverage on a standard metagene, all gene were binned where the size of sequence associated to the bin is proportionel to the gene length. Up and down stream flanks were binned in fixed sized bins (5 nt).
 
 ### Producing binnned metagene profiles
 Binning of genomic positions happens in two steps, first coverage is calculated along each annotated gene selected and its flanks with the below script

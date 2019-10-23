@@ -96,7 +96,7 @@ To make boundaries of protein coding genes more tissue specific to Col-0 seedlin
     
     e=R/l
     
-The basecall count in each position ci was normalized to ni as follows. 
+The basecall count in each position c_i was normalized to n_i as follows. 
     
     n_i=c_i/e
     

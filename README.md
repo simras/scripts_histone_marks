@@ -38,12 +38,12 @@ Then this script does the binning and calculations
 To explore how ChIP-seq occupancy changes with rate of transcription (measured by pNET-seq) scripts have been developed to plot ChIP-seq occupancy on metagenes
 
 ### Plotting many metagene profiles in one plot
-In one visualization genes are divided by transcrion rate in 10th, 20th,... quantiles, the an occupancy line is plotted for each group across the metagene.
+In one visualization genes are divided by transcrion rate in 10th, 20th,... quantiles, then line representing average genomic coverage is plotted for each group across the metagene.
 
     plot_histone_marks.R
 
 ### Plotting many metagene profiles in one plot
-First an intermediate data format is created to easy processing of the big dataset. Then the data sets are loaded z-score normalized and this script will plot data on genes with rate of transcription not in the lower and higher 25th quantiles.
+First an intermediate data format is created to easy processing of the big dataset. Then the data sets are loaded, z-score normalized and this script will plot data, disregarding genes with rate of transcription in the lower and higher 25th quantile.
 
     print_profile_ex_50pct.R
 
@@ -71,7 +71,7 @@ these 8 base barcodes are used to remove duplicated reads with
 3'end adapters are also removed with cutadapt.
 
 ### Calculating the rate of transcription from pNET-seq data
-Following scripts are needed for calculating rate of transcription measured by transcripts per million (TPM). First 
+Following scripts are needed for calculating rate of transcription measured by transcripts per million (TPM). 
 
     calc_nascent_expression.sh
     

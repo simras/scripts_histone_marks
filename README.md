@@ -71,7 +71,7 @@ these 8 base barcodes are used to remove duplicated reads with
 3'end adapters are also removed with cutadapt.
 
 ### Calculating the rate of transcription from pNET-seq data
-Following scripts are needed for calculating rate of transcription measured by transcripts per million (TPM). 
+Following scripts are needed for calculating rate of transcription. 
 
     calc_nascent_expression.sh
     

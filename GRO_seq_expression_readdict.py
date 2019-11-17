@@ -47,7 +47,7 @@ def mk_anno(ann_file, f2_name):
         ex_dic[gene_ID] = 0
         read_dic[gene_ID] = {}
     ii = 0
-    #print "Done"
+    
     for l in f2:
         read_fields = (l.split())[0:6]
         ann_fields = (l.split())[12:18]
